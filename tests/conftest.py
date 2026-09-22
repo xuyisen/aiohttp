@@ -23,6 +23,9 @@ try:
     HAS_BLOCKBUSTER = True
 except ImportError:  # For downstreams only  # pragma: no cover
     HAS_BLOCKBUSTER = False
+# Pre-load codecs to prevent blocking I/O during lazy import in hosted CI environments
+import encodings.cp1251
+import encodings.koi8_r
 
 from aiohttp import payload
 from aiohttp.client_proto import ResponseHandler
