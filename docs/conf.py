@@ -73,7 +73,7 @@ except ImportError:
 
 intersphinx_mapping = {
     "pytest": ("http://docs.pytest.org/en/latest/", None),
-    "python": ("http://docs.python.org/3", None),
+    "python": ("https://docs.python.org/3.13", None),
     "multidict": ("https://multidict.readthedocs.io/en/stable/", None),
     "propcache": ("https://propcache.aio-libs.org/en/stable", None),
     "yarl": ("https://yarl.readthedocs.io/en/stable/", None),

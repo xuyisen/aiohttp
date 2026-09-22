@@ -7,6 +7,14 @@ from unittest import mock
 
 import pytest
 
+# Fallback for asyncio.Server which was removed in Python 3.12
+if hasattr(asyncio, 'Server'):
+    _Server = asyncio.Server
+else:
+    class _Server:
+        pass
+
+
 from aiohttp import web
 from aiohttp.abc import AbstractAccessLogger
 from aiohttp.test_utils import get_unused_port_socket
@@ -266,7 +274,7 @@ async def test_tcpsite_default_host(make_runner: _RunnerMaker) -> None:
     assert site.name == "http://0.0.0.0:8080"
 
     m = mock.create_autospec(asyncio.AbstractEventLoop, spec_set=True, instance=True)
-    m.create_server.return_value = mock.create_autospec(asyncio.Server, spec_set=True)
+    m.create_server.return_value = mock.create_autospec(_Server, spec_set=True)
     with mock.patch(
         "asyncio.get_event_loop", autospec=True, spec_set=True, return_value=m
     ):

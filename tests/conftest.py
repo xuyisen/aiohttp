@@ -1,4 +1,5 @@
 import asyncio
+import codecs
 import base64
 import os
 import platform
@@ -12,6 +13,9 @@ from tempfile import TemporaryDirectory
 from typing import Any
 from unittest import mock
 from uuid import uuid4
+
+codecs.lookup("cp1251")
+codecs.lookup("koi8-r")
 
 import pytest
 
@@ -327,7 +331,8 @@ def netrc_home_directory(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Pat
     netrc_file = home_dir / netrc_filename
     netrc_file.write_text("default login netrc_user password netrc_pass\n")
 
-    monkeypatch.setenv("HOME", str(home_dir))
+    # Mock Path.home() to return our fake home directory
+    monkeypatch.setattr("pathlib.Path.home", lambda: home_dir)
     # Ensure NETRC env var is not set
     monkeypatch.delenv("NETRC", raising=False)
 
