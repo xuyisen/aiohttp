@@ -47,6 +47,14 @@ except ImportError:
     uvloop = None  # type: ignore[assignment]
 
 
+import codecs
+
+# Pre-load codecs to prevent lazy loading causing blocking I/O
+# when writing .pyc files in hosted CI toolcache
+codecs.lookup('cp1251')
+codecs.lookup('koi8-r')
+
+
 pytest_plugins = ("aiohttp.pytest_plugin", "pytester")
 
 IS_HPUX = sys.platform.startswith("hp-ux")
