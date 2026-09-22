@@ -12,6 +12,10 @@ from typing import Any
 from unittest import mock
 from uuid import uuid4
 
+# Warm up codecs to prevent blocking I/O during lazy import
+import encodings.cp1251
+import encodings.koi8_r
+
 import pytest
 
 try:

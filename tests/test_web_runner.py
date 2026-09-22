@@ -5,6 +5,12 @@ from collections.abc import Iterator
 from typing import Any, NoReturn, Protocol
 from unittest import mock
 
+
+# Fallback for asyncio.Server which was removed in Python 3.14
+try:
+    asyncio_Server = asyncio.Server
+except AttributeError:
+    from asyncio.base_events import Server as asyncio_Server
 import pytest
 
 from aiohttp import web
@@ -266,7 +272,7 @@ async def test_tcpsite_default_host(make_runner: _RunnerMaker) -> None:
     assert site.name == "http://0.0.0.0:8080"
 
     m = mock.create_autospec(asyncio.AbstractEventLoop, spec_set=True, instance=True)
-    m.create_server.return_value = mock.create_autospec(asyncio.Server, spec_set=True)
+    m.create_server.return_value = mock.create_autospec(asyncio_Server, spec_set=True)
     with mock.patch(
         "asyncio.get_event_loop", autospec=True, spec_set=True, return_value=m
     ):
