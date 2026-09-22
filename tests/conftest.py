@@ -21,6 +21,11 @@ try:
 except ImportError:  # For downstreams only  # pragma: no cover
     HAS_BLOCKBUSTER = False
 
+import codecs
+codecs.lookup("cp1251")
+codecs.lookup("koi8-r")
+
+
 from aiohttp import payload
 from aiohttp.client_proto import ResponseHandler
 from aiohttp.compression_utils import ZLibBackend, ZLibBackendProtocol, set_zlib_backend
