@@ -206,7 +206,7 @@ class ZLibCompressor(ZlibBaseHandler):
             # compress at a time.
             if (
                 self._max_sync_chunk_size is not None
-                and len(data) > self._max_sync_chunk_size
+                and len(data) > self._max_sync_chunk_size  # type: ignore[arg-type]
             ):
                 return await asyncio.get_running_loop().run_in_executor(
                     self._executor, self._compressor.compress, data
@@ -247,7 +247,7 @@ class ZLibDecompressor(ZlibBaseHandler):
         """
         if (
             self._max_sync_chunk_size is not None
-            and len(data) > self._max_sync_chunk_size
+            and len(data) > self._max_sync_chunk_size  # type: ignore[arg-type]
         ):
             return await asyncio.get_running_loop().run_in_executor(
                 self._executor, self._decompressor.decompress, data, max_length

@@ -385,3 +385,4 @@ yarl
 zlib
 zstandard
 zstd
+ThreadedChildWatcher

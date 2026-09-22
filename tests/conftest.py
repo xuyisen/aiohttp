@@ -1,4 +1,5 @@
 import asyncio
+import codecs
 import base64
 import os
 import socket
@@ -12,6 +13,9 @@ from typing import Any
 from unittest import mock
 from uuid import uuid4
 
+# Warm up codecs to avoid blocking I/O during test collection in CI environments
+codecs.lookup("cp1251")
+codecs.lookup("koi8-r")
 import pytest
 
 try:

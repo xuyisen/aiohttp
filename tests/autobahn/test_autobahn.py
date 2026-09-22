@@ -80,7 +80,7 @@ def test_client(report_dir: Path, request: pytest.FixtureRequest) -> None:
         client.terminate()
         client.wait()
         # https://github.com/gabrieldemarmiesse/python-on-whales/pull/580
-        autobahn_container.stop()  # type: ignore[union-attr]
+        autobahn_container.stop()
 
     failed_messages = get_failed_tests(f"{report_dir}/clients", "aiohttp")
 

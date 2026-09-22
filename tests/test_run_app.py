@@ -14,6 +14,12 @@ from typing import Any, NoReturn
 from unittest import mock
 from uuid import uuid4
 
+# Fallback for asyncio.Server for Python < 3.7 compatibility
+try:
+    asyncio_Server = asyncio.Server
+except AttributeError:
+    asyncio_Server = object
+
 import pytest
 from pytest_mock import MockerFixture
 
@@ -65,9 +71,9 @@ def skip_if_on_windows() -> None:
 def patched_loop(
     loop: asyncio.AbstractEventLoop,
 ) -> Iterator[asyncio.AbstractEventLoop]:
-    server = mock.create_autospec(asyncio.Server, spec_set=True, instance=True)
+    server = mock.create_autospec(asyncio_Server, spec_set=True, instance=True)
     server.wait_closed.return_value = None
-    unix_server = mock.create_autospec(asyncio.Server, spec_set=True, instance=True)
+    unix_server = mock.create_autospec(asyncio_Server, spec_set=True, instance=True)
     unix_server.wait_closed.return_value = None
     with mock.patch.object(
         loop, "create_server", autospec=True, spec_set=True, return_value=server
