@@ -1,4 +1,9 @@
 import asyncio
+try:
+    asyncio.Server
+except AttributeError:
+    from asyncio.base_events import Server as _Server
+    asyncio.Server = _Server  # type: ignore[attr-defined]
 import contextlib
 import logging
 import os

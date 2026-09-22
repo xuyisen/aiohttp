@@ -12,6 +12,12 @@ from typing import Any
 from unittest import mock
 from uuid import uuid4
 
+import codecs
+
+# Pre-load codecs to prevent blocking I/O during lazy import
+codecs.lookup("cp1251")
+codecs.lookup("koi8-r")
+
 import pytest
 
 try:
