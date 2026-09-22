@@ -25,9 +25,9 @@ def test_known_attrs_is_superset_of_morsel_reserved() -> None:
     morsel_reserved = {attr.lower() for attr in Morsel._reserved}  # type: ignore[attr-defined]
 
     # _COOKIE_KNOWN_ATTRS should be a superset of morsel_reserved
-    assert (
-        helpers._COOKIE_KNOWN_ATTRS >= morsel_reserved
-    ), f"_COOKIE_KNOWN_ATTRS is missing: {morsel_reserved - helpers._COOKIE_KNOWN_ATTRS}"
+    assert helpers._COOKIE_KNOWN_ATTRS >= morsel_reserved, (
+        f"_COOKIE_KNOWN_ATTRS is missing: {morsel_reserved - helpers._COOKIE_KNOWN_ATTRS}"
+    )
 
 
 def test_bool_attrs_is_superset_of_morsel_flags() -> None:
@@ -36,9 +36,9 @@ def test_bool_attrs_is_superset_of_morsel_flags() -> None:
     morsel_flags = {attr.lower() for attr in Morsel._flags}  # type: ignore[attr-defined]
 
     # _COOKIE_BOOL_ATTRS should be a superset of morsel_flags
-    assert (
-        helpers._COOKIE_BOOL_ATTRS >= morsel_flags
-    ), f"_COOKIE_BOOL_ATTRS is missing: {morsel_flags - helpers._COOKIE_BOOL_ATTRS}"
+    assert helpers._COOKIE_BOOL_ATTRS >= morsel_flags, (
+        f"_COOKIE_BOOL_ATTRS is missing: {morsel_flags - helpers._COOKIE_BOOL_ATTRS}"
+    )
 
 
 def test_preserve_morsel_with_coded_value() -> None:
@@ -69,6 +69,36 @@ def test_preserve_morsel_with_coded_value_no_coded_value() -> None:
     assert result.key == "test_cookie"
     assert result.value == "simple_value"
     assert result.coded_value == "simple_value"
+
+
+def test_set_morsel_value_with_control_chars() -> None:
+    """Test _set_morsel_value with control characters in cookie values."""
+    # Test _set_morsel_value with newline characters in the value
+    morsel = Morsel()
+    result = helpers._set_morsel_value(
+        morsel,
+        key="name",
+        value="\nnewline\n",
+        coded_value='"\\012newline\\012"',
+    )
+    assert result is morsel
+    assert morsel.key == "name"
+    assert morsel.value == "\nnewline\n"
+    assert morsel.coded_value == '"\\012newline\\012"'
+
+    # Test that parse_cookie_header handles control characters gracefully
+    result = parse_cookie_header('name="\\012newline\\012"')
+    assert len(result) == 1
+    assert result[0][0] == "name"
+    assert result[0][1].value == "\nnewline\n"
+    assert result[0][1].coded_value == '"\\012newline\\012"'
+
+    # Test that parse_set_cookie_headers handles control characters gracefully
+    result = parse_set_cookie_headers(['name="\\012newline\\012"'])
+    assert len(result) == 1
+    assert result[0][0] == "name"
+    assert result[0][1].value == "\nnewline\n"
+    assert result[0][1].coded_value == '"\\012newline\\012"'
 
 
 def test_parse_set_cookie_headers_simple() -> None:
@@ -138,7 +168,7 @@ def test_parse_set_cookie_headers_special_chars_in_names() -> None:
     for i, (name, morsel) in enumerate(result):
         assert name == expected_names[i]
         assert morsel.key == expected_names[i]
-        assert morsel.value == f"value{i+1}"
+        assert morsel.value == f"value{i + 1}"
 
 
 def test_parse_set_cookie_headers_invalid_names() -> None:
@@ -512,11 +542,11 @@ def test_parse_set_cookie_headers_partitioned() -> None:
 
     # All cookies should have partitioned=True
     for i, (name, morsel) in enumerate(result):
-        assert (
-            morsel.get("partitioned") is True
-        ), f"Cookie {i+1} should have partitioned=True"
-        assert name == f"cookie{i+1}"
-        assert morsel.value == f"value{i+1}"
+        assert morsel.get("partitioned") is True, (
+            f"Cookie {i + 1} should have partitioned=True"
+        )
+        assert name == f"cookie{i + 1}"
+        assert morsel.value == f"value{i + 1}"
 
     # Cookie 4 should also have secure and httponly
     assert result[3][1].get("secure") is True
@@ -546,9 +576,9 @@ def test_parse_set_cookie_headers_partitioned_case_insensitive() -> None:
 
     # All should be recognized as partitioned
     for i, (_, morsel) in enumerate(result):
-        assert (
-            morsel.get("partitioned") is True
-        ), f"Cookie {i+1} should have partitioned=True"
+        assert morsel.get("partitioned") is True, (
+            f"Cookie {i + 1} should have partitioned=True"
+        )
 
 
 def test_parse_set_cookie_headers_partitioned_not_set() -> None:
@@ -583,9 +613,9 @@ def test_parse_set_cookie_headers_partitioned_not_set_if_no_support() -> None:
 
     assert len(result) == 3
     for i, (_, morsel) in enumerate(result):
-        assert (
-            morsel.get("partitioned") is None
-        ), f"Cookie {i+1} should not have partitioned flag"
+        assert morsel.get("partitioned") is None, (
+            f"Cookie {i + 1} should not have partitioned flag"
+        )
 
 
 def test_parse_set_cookie_headers_partitioned_with_other_attrs_manual() -> None:

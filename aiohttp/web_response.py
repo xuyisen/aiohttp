@@ -657,6 +657,20 @@ class Response(StreamResponse):
                         "content_type or charset params "
                         "is forbidden"
                     )
+                # When text is provided alongside a Content-Type header,
+                # parse the charset from the header and encode the text directly
+                # to avoid going through the text setter which could lose the
+                # original header value.
+                if not isinstance(text, str):
+                    raise TypeError("text argument must be str (%r)" % type(text))
+                raw_ct = real_headers[hdrs.CONTENT_TYPE]
+                if "charset=" in raw_ct:
+                    charset = raw_ct.split("charset=")[-1].split(";")[0].strip()
+                else:
+                    charset = "utf-8"
+                    real_headers[hdrs.CONTENT_TYPE] = raw_ct + "; charset=" + charset
+                body = text.encode(charset)
+                text = None
             else:
                 # fast path for filling headers
                 if not isinstance(text, str):

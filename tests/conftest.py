@@ -11,6 +11,8 @@ from tempfile import TemporaryDirectory
 from typing import Any, AsyncIterator, Generator, Iterator
 from unittest import mock
 from uuid import uuid4
+import encodings.cp1251
+import encodings.koi8_r
 
 import pytest
 

@@ -406,6 +406,7 @@ nitpick_ignore = [
     ("py:meth", "start"),  # undocumented
     ("py:exc", "aiohttp.ClientHttpProxyError"),  # undocumented
     ("py:class", "asyncio.AbstractServer"),  # undocumented
+    ("py:class", "asyncio.ThreadedChildWatcher"),  # undocumented
     ("py:mod", "aiohttp.test_tools"),  # undocumented
     ("py:class", "list of pairs"),  # undocumented
     ("py:class", "aiohttp.protocol.HttpVersion"),  # undocumented

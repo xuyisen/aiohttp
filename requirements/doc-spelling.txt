@@ -14,11 +14,11 @@ certifi==2025.10.5
     # via requests
 charset-normalizer==3.4.3
     # via requests
-click==8.1.8
+click==8.2.1
     # via towncrier
 docutils==0.21.2
     # via sphinx
-idna==3.4
+idna==3.10
     # via requests
 imagesize==1.4.1
     # via sphinx

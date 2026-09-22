@@ -25,7 +25,7 @@ cffi==2.0.0
     #   cryptography
     #   pycares
     #   pytest-codspeed
-click==8.1.8
+click==8.2.1
     # via wait-for-it
 coverage==7.10.7
     # via
@@ -47,15 +47,15 @@ frozenlist==1.8.0
     #   aiosignal
 gunicorn==23.0.0
     # via -r requirements/base.in
-idna==3.4
+idna==3.10
     # via
     #   trustme
     #   yarl
 iniconfig==2.1.0
     # via pytest
-isal==1.7.2 ; python_version < "3.14"
+isal==1.8.0 ; python_version < "3.14"
     # via -r requirements/test-common.in
-markdown-it-py==3.0.0
+markdown-it-py==4.0.0
     # via rich
 mdurl==0.1.2
     # via markdown-it-py

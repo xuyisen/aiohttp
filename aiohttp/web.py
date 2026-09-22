@@ -299,7 +299,10 @@ else:
 # Only display warning when using -Wdefault, -We, -X dev or similar.
 warnings.filterwarnings("ignore", category=NotAppKeyWarning, append=True)
 
-HostSequence = TypingIterable[str]
+if TYPE_CHECKING:
+    HostSequence = TypingIterable[str]
+else:
+    HostSequence = Iterable
 
 
 async def _run_app(
@@ -414,8 +417,9 @@ async def _run_app(
         if print:  # pragma: no branch
             names = sorted(str(s.name) for s in runner.sites)
             print(
-                "======== Running on {} ========\n"
-                "(Press CTRL+C to quit)".format(", ".join(names))
+                "======== Running on {} ========\n(Press CTRL+C to quit)".format(
+                    ", ".join(names)
+                )
             )
 
         # sleep forever by 1 hour intervals,
