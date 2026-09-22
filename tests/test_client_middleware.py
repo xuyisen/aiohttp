@@ -845,7 +845,7 @@ async def test_client_middleware_blocks_connection_without_dns_lookup(
         assert "blocked.domain.tld" not in dns_lookups_made
 
         # Test allowed request to existing server - this should trigger DNS lookup
-        async with session.get(f"http://localhost:{server.port}") as resp:
+        async with session.get(f"http://127.0.0.1:{server.port}") as resp:
             assert resp.status == 200
 
         # Verify that DNS lookup was made for the allowed request
@@ -957,7 +957,7 @@ async def test_middleware_uses_session_avoids_recursion_with_path_check(
         if request.url.path != "/log":
             # Use the session from the request to make the logging call
             async with request.session.post(
-                f"http://localhost:{log_server.port}/log",
+                f"http://127.0.0.1:{log_server.port}/log",
                 json={"method": str(request.method), "url": str(request.url)},
             ) as resp:
                 assert resp.status == 200
@@ -1025,7 +1025,7 @@ async def test_middleware_uses_session_avoids_recursion_with_disabled_middleware
         # Use the session from the request to make the logging call
         # Disable middleware to avoid infinite recursion
         async with request.session.post(
-            f"http://localhost:{log_server.port}/log",
+            f"http://127.0.0.1:{log_server.port}/log",
             json={"method": str(request.method), "url": str(request.url)},
             middlewares=(),  # This prevents infinite recursion
         ) as resp:

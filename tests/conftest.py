@@ -12,6 +12,8 @@ from typing import Any
 from unittest import mock
 from uuid import uuid4
 
+import codecs
+
 import pytest
 
 try:
@@ -20,6 +22,10 @@ try:
     HAS_BLOCKBUSTER = True
 except ImportError:  # For downstreams only  # pragma: no cover
     HAS_BLOCKBUSTER = False
+
+# Pre-load codecs to avoid blocking I/O during lazy import in hosted CI environments
+codecs.lookup("cp1251")
+codecs.lookup("koi8-r")
 
 from aiohttp import payload
 from aiohttp.client_proto import ResponseHandler

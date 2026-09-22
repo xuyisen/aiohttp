@@ -1,4 +1,10 @@
 import asyncio
+
+try:
+    from asyncio import Server as asyncio_Server
+except ImportError:
+    from asyncio.base_events import Server as asyncio_Server
+
 import platform
 import signal
 from collections.abc import Iterator
@@ -266,7 +272,7 @@ async def test_tcpsite_default_host(make_runner: _RunnerMaker) -> None:
     assert site.name == "http://0.0.0.0:8080"
 
     m = mock.create_autospec(asyncio.AbstractEventLoop, spec_set=True, instance=True)
-    m.create_server.return_value = mock.create_autospec(asyncio.Server, spec_set=True)
+    m.create_server.return_value = mock.create_autospec(asyncio_Server, spec_set=True)
     with mock.patch(
         "asyncio.get_event_loop", autospec=True, spec_set=True, return_value=m
     ):
