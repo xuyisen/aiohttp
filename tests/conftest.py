@@ -26,6 +26,12 @@ try:
 except ImportError:  # For downstreams only  # pragma: no cover
     HAS_BLOCKBUSTER = False
 
+import codecs
+# Pre-load codecs to avoid lazy I/O during .pyc writing in hosted CI toolcache
+codecs.lookup("cp1251")
+codecs.lookup("koi8-r")
+
+
 from aiohttp import payload
 from aiohttp.client import ClientSession
 from aiohttp.client_proto import ResponseHandler

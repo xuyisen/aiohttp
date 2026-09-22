@@ -1,4 +1,10 @@
 import asyncio
+
+try:
+    from asyncio import Server as asyncio_Server
+except ImportError:
+    from asyncio.base_events import Server as asyncio_Server  # type: ignore[assignment]
+
 import contextlib
 import logging
 import os
@@ -65,9 +71,9 @@ def skip_if_on_windows() -> None:
 def patched_loop(
     loop: asyncio.AbstractEventLoop,
 ) -> Iterator[asyncio.AbstractEventLoop]:
-    server = mock.create_autospec(asyncio.Server, spec_set=True, instance=True)
+    server = mock.create_autospec(asyncio_Server, spec_set=True, instance=True)
     server.wait_closed.return_value = None
-    unix_server = mock.create_autospec(asyncio.Server, spec_set=True, instance=True)
+    unix_server = mock.create_autospec(asyncio_Server, spec_set=True, instance=True)
     unix_server.wait_closed.return_value = None
     with mock.patch.object(
         loop, "create_server", autospec=True, spec_set=True, return_value=server
