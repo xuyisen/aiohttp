@@ -13,7 +13,7 @@ from collections.abc import (
     Sequence,
 )
 from functools import lru_cache, partial, update_wrapper
-from typing import Any, TypeVar, cast, final, overload
+from typing import TYPE_CHECKING, Any, TypeVar, cast, final, overload
 
 from aiosignal import Signal
 from frozenlist import FrozenList
