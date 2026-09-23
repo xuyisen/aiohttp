@@ -1,4 +1,5 @@
 import asyncio
+import codecs
 import base64
 import os
 import socket
@@ -51,6 +52,10 @@ pytest_plugins = ("aiohttp.pytest_plugin", "pytester")
 
 IS_HPUX = sys.platform.startswith("hp-ux")
 IS_LINUX = sys.platform.startswith("linux")
+# Eagerly load codecs to avoid blocked I/O during coverage execution
+codecs.lookup("cp1251")
+codecs.lookup("koi8-r")
+
 
 
 @pytest.fixture(autouse=HAS_BLOCKBUSTER)

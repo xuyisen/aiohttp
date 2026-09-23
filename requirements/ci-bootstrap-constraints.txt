@@ -1,0 +1,19 @@
+#
+# Constraints for CI bootstrap installs on PyPy < 3.11.
+# Pins packages that are incompatible with older PyPy runtimes.
+#
+
+# pin nh3 to a version compatible with PyPy < 3.11
+nh3<0.2.16
+
+# pin readme-renderer to avoid pulling incompatible nh3
+readme-renderer<43
+
+# pin twine to a version compatible with the above constraints
+twine<5.0.0
+
+# pin cryptography for compatibility
+cryptography<42.0.0
+
+# pin cffi for PyPy compatibility
+cffi<2.0.0

@@ -125,7 +125,7 @@ mypy-extensions==1.1.0
     # via mypy
 nodeenv==1.9.1
     # via pre-commit
-packaging==25.0
+packaging==26.2
     # via
     #   build
     #   gunicorn
@@ -207,7 +207,7 @@ requests==2.32.5
     # via
     #   cherry-picker
     #   sphinx
-rich==14.2.0
+rich==15.0.0
     # via pytest-codspeed
 setuptools-git==1.2
     # via -r requirements/test-common.in
