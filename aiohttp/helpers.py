@@ -371,7 +371,9 @@ class EnsureOctetStream(Message):
         The way this class is used guarantees that content-type will
         be present so simplify the checks wrt to the base implementation.
         """
-        value = self.get("content-type").lower()
+        value = self.get("content-type")
+        assert value is not None, "content-type should always be present"
+        value = value.lower()
 
         # Based on the implementation of _splitparam in the standard library
         ctype, sep, _ = value.partition(";")
