@@ -126,7 +126,7 @@ mypy-extensions==1.1.0
     # via mypy
 nodeenv==1.9.1
     # via pre-commit
-packaging==25.0
+packaging==26.2
     # via
     #   build
     #   gunicorn
@@ -156,9 +156,9 @@ pycares==4.11.0
     # via aiodns
 pycparser==2.23
     # via cffi
-pydantic==2.11.9
+pydantic==2.12.0a1
     # via python-on-whales
-pydantic-core==2.33.2
+pydantic-core==2.37.2
     # via pydantic
 pyenchant==3.3.0
     # via sphinxcontrib-spelling
@@ -212,7 +212,7 @@ requests==2.32.5
     #   cherry-picker
     #   sphinx
     #   sphinxcontrib-spelling
-rich==14.1.0
+rich==15.0.0
     # via pytest-codspeed
 setuptools-git==1.2
     # via -r requirements/test-common.in
